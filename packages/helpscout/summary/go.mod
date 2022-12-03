@@ -1,4 +1,4 @@
-module github.com/cesbo/helpscout-toolkit/packages/helpscout/list-docs
+module github.com/cesbo/helpscout-toolkit/packages/helpscout/summary
 
 go 1.18
 
