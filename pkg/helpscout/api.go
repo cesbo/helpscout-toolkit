@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	userAgent = "cesbo-hsapi/0.1"
+	userAgent = "helpscout-toolkit/0.1"
 )
 
 var (

@@ -33,11 +33,15 @@ type Collections struct {
 	Items []Collection `json:"items"`
 }
 
+type collectionResponse struct {
+	Collections *Collections `json:"collections"`
+}
+
 func ListCollections() (*Collections, error) {
-	collections := &Collections{}
-	err := getJSON("collections", nil, collections)
+	x := collectionResponse{}
+	err := getJSON("collections", nil, &x)
 	if err != nil {
 		return nil, err
 	}
-	return collections, nil
+	return x.Collections, nil
 }
