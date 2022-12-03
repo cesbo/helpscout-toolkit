@@ -6,18 +6,12 @@ import (
 	"net"
 	"net/http"
 	"net/url"
-	"os"
+	"strconv"
 	"time"
 )
 
-const (
-	userAgent = "helpscout-toolkit/0.1"
-)
-
 var (
-	apiURL, _ = url.Parse("https://docsapi.helpscout.net/v1/")
-	apiKey    = os.Getenv("HELPSCOUT_API_KEY")
-	client    = &http.Client{
+	client = &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			DialContext: (&net.Dialer{
@@ -37,18 +31,18 @@ var (
 	}
 )
 
-func getJSON(path string, query url.Values, target interface{}) error {
-	if apiKey == "" {
+func (hs *HelpScout) getJSON(path string, query url.Values, target interface{}) error {
+	if hs.apiKey == "" {
 		return fmt.Errorf("HELPSCOUT_API_KEY is not set")
 	}
 
 	request, _ := http.NewRequest(http.MethodGet, "", nil)
-	request.URL = apiURL.ResolveReference(&url.URL{
+	request.URL = hs.apiURL.ResolveReference(&url.URL{
 		Path:     path,
 		RawQuery: query.Encode(),
 	})
 	request.Header.Add("User-Agent", userAgent)
-	request.SetBasicAuth(apiKey, "X")
+	request.SetBasicAuth(hs.apiKey, "X")
 
 	response, err := client.Do(request)
 	if err != nil {
@@ -58,6 +52,14 @@ func getJSON(path string, query url.Values, target interface{}) error {
 		return fmt.Errorf("request send: %w", err)
 	}
 	defer response.Body.Close()
+
+	if v := response.Header.Get("X-RateLimit-Remaining"); v != "" {
+		hs.rateLimitRemain, _ = strconv.Atoi(v)
+	}
+
+	if v := response.Header.Get("X-RateLimit-Reset"); v != "" {
+		hs.rateLimitReset, _ = strconv.Atoi(v)
+	}
 
 	// Check response status
 	if response.StatusCode != 200 {
@@ -71,4 +73,10 @@ func getJSON(path string, query url.Values, target interface{}) error {
 	}
 
 	return nil
+}
+
+// RateLimit returns the number of requests remaining in the current rate limit window
+// and duration until the current rate limit window expires.
+func (hs *HelpScout) RateLimit() (int, time.Duration) {
+	return hs.rateLimitRemain, time.Duration(hs.rateLimitReset) * time.Second
 }

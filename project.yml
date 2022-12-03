@@ -3,7 +3,7 @@ packages:
     environment:
       HELPSCOUT_API_KEY: ${HELPSCOUT_API_KEY}
     functions:
-      - name: list-docs
+      - name: summary
         main: ""
         runtime: go:default
         web: true

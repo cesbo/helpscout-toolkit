@@ -1,6 +1,10 @@
 package helpscout
 
-import "time"
+import (
+	"net/url"
+	"strconv"
+	"time"
+)
 
 // Description: https://developer.helpscout.com/docs-api/objects/article/
 // Endpoint: https://docsapi.helpscout.net/v1/articles/{id}
@@ -39,12 +43,17 @@ type articlesResponse struct {
 	Articles *Articles `json:"articles"`
 }
 
-func ListArticles(categoryId string) (*Articles, error) {
+func (hs *HelpScout) ListArticles(categoryId string, page int) (*Articles, error) {
 	x := articlesResponse{}
+	q := url.Values{
+		"page": []string{strconv.Itoa(page)},
+	}
+
 	path := "categories/" + categoryId + "/articles"
-	err := getJSON(path, nil, &x)
+	err := hs.getJSON(path, q, &x)
 	if err != nil {
 		return nil, err
 	}
+
 	return x.Articles, nil
 }

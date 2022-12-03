@@ -1,6 +1,10 @@
 package helpscout
 
-import "time"
+import (
+	"net/url"
+	"strconv"
+	"time"
+)
 
 // Collection is a group of categories
 // Description: https://developer.helpscout.com/docs-api/objects/collection/
@@ -37,11 +41,16 @@ type collectionsResponse struct {
 	Collections *Collections `json:"collections"`
 }
 
-func ListCollections() (*Collections, error) {
+func (hs *HelpScout) ListCollections(page int) (*Collections, error) {
 	x := collectionsResponse{}
-	err := getJSON("collections", nil, &x)
+	q := url.Values{
+		"page": []string{strconv.Itoa(page)},
+	}
+
+	err := hs.getJSON("collections", q, &x)
 	if err != nil {
 		return nil, err
 	}
+
 	return x.Collections, nil
 }
