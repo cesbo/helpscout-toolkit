@@ -1,0 +1,10 @@
+packages:
+  - name: helpscout
+    environment:
+      HELPSCOUT_API_KEY: ${HELPSCOUT_API_KEY}
+    functions:
+      - name: list-docs
+        main: ""
+        runtime: go:default
+        web: true
+        websecure: false
