@@ -1,2 +1,2 @@
-github.com/cesbo/helpscout-toolkit/internal/helpscout v0.0.0-20221203073447-d3f98faedcc7 h1:Heo8TGbRwjxhHaHOCGh2vBZQoCxKPhxX9CdgRVXRVGU=
-github.com/cesbo/helpscout-toolkit/internal/helpscout v0.0.0-20221203073447-d3f98faedcc7/go.mod h1:pIXImCtC+kTPkJYgAnGXZyfhpyUkQFy/TCrVv0dHn1M=
+github.com/cesbo/helpscout-toolkit/pkg/helpscout v0.0.0-20221203075835-547d85761416 h1:toE0j9WOQnWpJXIEsWzv+IyGBnJxRTRm/te8q9JUqoY=
+github.com/cesbo/helpscout-toolkit/pkg/helpscout v0.0.0-20221203075835-547d85761416/go.mod h1:N/Jg+K155l5SDPKEe06QI7FNlD2OH1vzzQoZ4FntYj4=

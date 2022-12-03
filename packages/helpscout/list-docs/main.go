@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/cesbo/helpscout-toolkit/internal/helpscout"
+	"github.com/cesbo/helpscout-toolkit/pkg/helpscout"
 )
 
 type Response struct {
